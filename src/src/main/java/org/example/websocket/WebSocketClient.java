@@ -20,5 +20,6 @@ public class WebSocketClient {
         // Keep the client alive to receive messages
         Thread.sleep(10000);
         session.close();
+        
     }
 }
