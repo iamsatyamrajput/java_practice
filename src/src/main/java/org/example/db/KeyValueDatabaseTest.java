@@ -1,7 +1,7 @@
 package org.example.db;
 
 public class KeyValueDatabaseTest {
-    public static void main(String[] args) {
+    public static void main() {
         KeyValueDatabase<String, String> db = new KeyValueDatabase<>();
         db.init();
         
