@@ -5,9 +5,7 @@ import lld.parkingLotExample.model.Vehicle;
 import lld.parkingLotExample.model.ParkingSpot;
 import lld.parkingLotExample.manager.VehicleManager;
 import lld.parkingLotExample.manager.SpotManager;
-import lld.parkingLotExample.manager.ParkingLotManager;
 import lld.parkingLotExample.util.Helper01;
-import lld.parkingLotExample.Q001ParkingLotInterface;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;

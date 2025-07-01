@@ -1,6 +1,7 @@
-package lld.parkingLotExample.Solution;
+package lld.parkingLotExample.manager;
 
-import lld.parkingLotExample.ParkingResult;
+
+import lld.parkingLotExample.model.ParkingResult;
 
 import java.util.concurrent.ConcurrentHashMap;
 
