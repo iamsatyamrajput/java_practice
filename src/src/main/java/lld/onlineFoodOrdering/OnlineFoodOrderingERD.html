@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Food Ordering System - Entity Relationship Diagram</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .erd-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .entity {
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 250px;
+            background-color: #ecf0f1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .entity-title {
+            background-color: #3498db;
+            color: white;
+            padding: 8px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .attribute {
+            margin: 5px 0;
+            padding: 3px 0;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        .primary-key {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .foreign-key {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        .relationship {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .legend {
+            background-color: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .legend h3 {
+            margin-top: 0;
+        }
+        .legend-item {
+            margin: 5px 0;
+        }
+        .flow-diagram {
+            background-color: #f8f9fa;
+            border: 2px solid #6c757d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .flow-step {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .arrow {
+            text-align: center;
+            font-size: 20px;
+            color: #6c757d;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍕 Online Food Ordering System - Entity Relationship Diagram</h1>
+        
+        <div class="erd-container">
+            <!-- Restaurant Entity -->
+            <div class="entity">
+                <div class="entity-title">🏪 RESTAURANT</div>
+                <div class="attribute primary-key">• id (String) - Primary Key</div>
+                <div class="attribute">• foodsItems (Map&lt;String, Food&gt;)</div>
+                <div class="attribute">• rating (Rating)</div>
+                <div class="relationship">1 : M with FOOD</div>
+                <div class="relationship">1 : M with ORDER</div>
+            </div>
+
+            <!-- Food Entity -->
+            <div class="entity">
+                <div class="entity-title">🍔 FOOD</div>
+                <div class="attribute primary-key">• foodItemId (String) - Primary Key</div>
+                <div class="attribute">• name (String)</div>
+                <div class="attribute">• price (double)</div>
+                <div class="attribute">• rating (Rating)</div>
+                <div class="relationship">M : 1 with RESTAURANT</div>
+            </div>
+
+            <!-- Order Entity -->
+            <div class="entity">
+                <div class="entity-title">📋 ORDER</div>
+                <div class="attribute primary-key">• orderId (String) - Primary Key</div>
+                <div class="attribute foreign-key">• restaurantId (String) - Foreign Key</div>
+                <div class="attribute foreign-key">• foodItemId (String) - Foreign Key</div>
+                <div class="relationship">M : 1 with RESTAURANT</div>
+                <div class="relationship">M : 1 with FOOD</div>
+            </div>
+
+            <!-- Rating Entity -->
+            <div class="entity">
+                <div class="entity-title">⭐ RATING</div>
+                <div class="attribute">• stars (int)</div>
+                <div class="relationship">1 : 1 with RESTAURANT</div>
+                <div class="relationship">1 : 1 with FOOD</div>
+            </div>
+
+            <!-- RatingEvent Entity -->
+            <div class="entity">
+                <div class="entity-title">📊 RATING_EVENT</div>
+                <div class="attribute">• orderId (String)</div>
+                <div class="attribute">• restaurantId (String)</div>
+                <div class="attribute">• foodItemId (String)</div>
+                <div class="attribute">• rating (int)</div>
+                <div class="relationship">Event-driven communication</div>
+            </div>
+        </div>
+
+        <!-- Manager Classes -->
+        <div style="margin-top: 30px;">
+            <h2>🎛️ Manager Classes & Services</h2>
+            <div class="erd-container">
+                <div class="entity">
+                    <div class="entity-title">🏢 RESTAURANT_MANAGER</div>
+                    <div class="attribute">• restaurants (Map&lt;String, Restaurant&gt;)</div>
+                    <div class="attribute">• Implements RestaurantRatingListener</div>
+                    <div class="relationship">Manages RESTAURANT entities</div>
+                </div>
+
+                <div class="entity">
+                    <div class="entity-title">📦 ORDER_MANAGER</div>
+                    <div class="attribute">• orders (Map&lt;String, Order&gt;)</div>
+                    <div class="attribute">• Implements OrderRatingListener</div>
+                    <div class="relationship">Manages ORDER entities</div>
+                </div>
+
+                <div class="entity">
+                    <div class="entity-title">⭐ RATING_SERVICE</div>
+                    <div class="attribute">• restaurantRatings (Map&lt;String, List&lt;Integer&gt;&gt;)</div>
+                    <div class="attribute">• orderListeners (List&lt;OrderRatingListener&gt;)</div>
+                    <div class="attribute">• restaurantListeners (List&lt;RestaurantRatingListener&gt;)</div>
+                    <div class="relationship">Orchestrates rating operations</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Observer Pattern Flow -->
+        <div class="flow-diagram">
+            <h2>🔄 Observer Pattern Flow</h2>
+            <div class="flow-step">1. User calls Solution.rateOrder(orderId, rating)</div>
+            <div class="arrow">↓</div>
+            <div class="flow-step">2. RatingService.rateOrder() creates RatingEvent</div>
+            <div class="arrow">↓</div>
+            <div class="flow-step">3. Notify OrderManager (OrderRatingListener)</div>
+            <div class="arrow">↓</div>
+            <div class="flow-step">4. Calculate average restaurant rating</div>
+            <div class="arrow">↓</div>
+            <div class="flow-step">5. Notify RestaurantManager (RestaurantRatingListener)</div>
+            <div class="arrow">↓</div>
+            <div class="flow-step">6. Update Restaurant.rating.stars</div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h3>📋 Legend</h3>
+            <div class="legend-item">🔴 <strong>Primary Key:</strong> Unique identifier for each entity</div>
+            <div class="legend-item">🟡 <strong>Foreign Key:</strong> Reference to another entity's primary key</div>
+            <div class="legend-item">🔵 <strong>Regular Attribute:</strong> Entity property</div>
+            <div class="legend-item">🟢 <strong>Relationship:</strong> Connection between entities</div>
+            <div class="legend-item">📊 <strong>Event:</strong> Data transfer object for communication</div>
+        </div>
+
+        <!-- Key Relationships -->
+        <div style="margin-top: 30px;">
+            <h2>🔗 Key Relationships</h2>
+            <ul>
+                <li><strong>Restaurant → Food:</strong> One-to-Many (A restaurant serves multiple food items)</li>
+                <li><strong>Restaurant → Order:</strong> One-to-Many (A restaurant receives multiple orders)</li>
+                <li><strong>Food → Order:</strong> One-to-Many (A food item can be ordered multiple times)</li>
+                <li><strong>Restaurant → Rating:</strong> One-to-One (Each restaurant has one rating)</li>
+                <li><strong>Food → Rating:</strong> One-to-One (Each food item has one rating)</li>
+                <li><strong>Order → RatingEvent:</strong> One-to-One (Each order rating creates one event)</li>
+            </ul>
+        </div>
+
+        <!-- Design Patterns -->
+        <div style="margin-top: 30px;">
+            <h2>🎯 Design Patterns Used</h2>
+            <ul>
+                <li><strong>Observer Pattern:</strong> RatingService notifies OrderManager and RestaurantManager</li>
+                <li><strong>Manager Pattern:</strong> Separate managers for different domains</li>
+                <li><strong>Event-Driven Architecture:</strong> RatingEvent for loose coupling</li>
+                <li><strong>Interface Segregation:</strong> Separate listener interfaces</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html> 
